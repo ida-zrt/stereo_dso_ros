@@ -307,7 +307,7 @@ int main(int argc, char **argv)
     sync.registerCallback(callback);
     /**********************************************************************/
 
-    // ros::Rate r(20);
+    ros::Rate r(30);
     while (ros::ok())
     {
         // do slam if a pair of image received
@@ -346,15 +346,15 @@ int main(int argc, char **argv)
             break;
         }
         ros::spinOnce();
-        // r.sleep();
+        r.sleep();
     }
 
     fullSystem->blockUntilMappingIsFinished();
-    fullSystem->printResult("/home/jiatianwu/project/sdso/result.txt");
+    fullSystem->printResult("~/result.txt");
 
     for (IOWrap::Output3DWrapper *ow : fullSystem->outputWrapper)
     {
-        ow->saveResults("~/results.bag")
+        ow->saveResults("~/results.bag");
         ow->join();
         delete ow;
     }
