@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/opt/ros/noetic/include/**",
+        "/media/E/All_codes/A_lab/A_grad/stero_slam/slam_catkin_ws/src/stereo_dso_ros/include/**",
+        "/media/E/All_codes/A_lab/A_grad/stero_slam/slam_catkin_ws/src/stereo_dso_ros_v1/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

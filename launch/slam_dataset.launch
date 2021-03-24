@@ -1,0 +1,7 @@
+<launch>
+
+    <!-- <node name="slam_dataset" pkg="stereo_dso_ros" type="dso_dataset" args="files=/media/E/All_codes/A_lab/A_grad/data/sequences/00/ calib=/media/E/All_codes/A_lab/A_grad/data/sequences/00/calib2.txt preset=0 mode=1" /> -->
+    <node name="send_data" pkg="rosbag" type="play" args="/home/ida/2021-03-22-16-17-59.bag -r 0.5 "></node>
+    <node output="screen" name="slam_dataset" pkg="stereo_dso_ros" type="dso_dataset" args="files=/media/E/All_codes/A_lab/A_grad/stero_slam/slam_catkin_ws/src/stereo_dso_ros/data/20200323/ calib=/media/E/All_codes/A_lab/A_grad/stero_slam/slam_catkin_ws/src/stereo_dso_ros/note/indemind_calib.txt preset=0 mode=1"></node>
+    <node name="rviz" pkg="rviz" type="rviz" args="/home/ida/.rviz/stereo_dso_ros.rviz -d /home/ida/.rviz/stereo_dso_ros.rviz"></node>
+</launch>

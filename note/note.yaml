@@ -1,0 +1,105 @@
+主要流程: # 结合图片
+    main: #(in main_dso_pangolin.cpp)
+        # parse argument
+        # init image reader
+        # !!!---init slam system---!!! #
+        # create image buffer(temp images)
+        # create timestamps for images
+        # !!!===slam system main loop===!!! #
+        mainloop:
+            # read images
+            # skip or not
+            # run slam
+            addActiveFrame
+            # reset system if init failed
+    addActiveFrame: #(in FullSystem.cpp)
+        # add new frames into (FullSystem::)allFrameHistory
+
+        # calculate image derivatives( !!!makeImages!!! )
+        makeImages:
+            计算不同尺度下的图像梯度，同时也进行光度标定计算，保存在 FrameHessian.dI_l, dabs_l 中
+            dIp作为初始值？？
+
+        # Initialize !!
+        coaresInitializer:
+            setFirstStereo:
+                makeK: 
+                - 创建适应不同尺度的相机参数（缩放fx fy cx cy， width height等）
+                PixelSelector:
+                - 选择一些双目的匹配点去初始化（像素点）
+                for 循环:
+                - 在不同尺度缩放的条件下， 进行静态的立体匹配算法, 成功的就算他的深度，不成功用0.01代替
+
+                makeNN:
+                - 邻近点计算深度初始化？
+
+        
+        # swap tracking reference?
+
+        # key frame or not?
+
+        # plot camera pose
+        PangolinDSOViewer:
+
+        # continue to track
+        continue:
+    deliverTrackedFrame:
+        makeKeyFrame:
+        makeNonKeyFrame:
+
+    makeKeyFrame:
+        # Flag frames to be Marginalized
+        flagFramesForMarginalization:
+
+        # !!!开始滑动窗口优化!!!
+        # add new frame to hessian struct
+
+        # add new residuals for old points
+
+        # activate points, 
+        activatePointsMT();:
+
+        # Optimize ALL
+
+        # figure out if initialization failed
+
+        # remove outlier
+
+        # !!!边缘化!!!
+        # marginalize points
+
+        # add new immature points and new residuals
+
+        # marginalize frames
+        continue:
+    makeNonKeyFrame:
+
+
+
+FullSystem 中的一些函数，变量用途:
+    coaresInitializer: # 初始化 是一个类（函数）
+模块
+    std::vector<FrameHessian *> frameHessians, frameHessiansRight;: 包含了关键帧， 关键帧包含了 地图点， 详细见 FrameHessian 类
+
+    std::vector<FrameShell *> allFrameHistory; : 所有的历史帧， 只包含了关键帧的位姿
+
+
+FrameHessian 类:
+    std::vector<PointHessian *> pointHessians;             // contains all ACTIVE points.
+    std::vector<PointHessian *> pointHessiansMarginalized; // contains all MARGINALIZED points (= fully marginalized, usually because point went OOB.)
+    std::vector<PointHessian *> pointHessiansOut;          // contains all OUTLIER points (= discarded.).
+    std::vector<PointHessian *> potentialPointHessians;
+    std::vector<ImmaturePoint *> immaturePoints;
+
+    HCalib 内参矩阵 hessian模块
+
+frameShell 类:
+    包含了这个 frame 的姿态等数据
+
+calibHessian 类:
+    保存了 相机的内参
+
+pointHessians 类:
+    采用的是逆深度保存，因此同时保存了 hostframe 和 像素坐标 u, v
+
+

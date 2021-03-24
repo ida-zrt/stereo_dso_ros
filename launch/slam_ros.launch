@@ -1,0 +1,5 @@
+<launch>
+    <node name="dso_ros" output="screen" pkg="stereo_dso_ros" type="dso_ros" args="calib=/media/E/All_codes/A_lab/A_grad/stero_slam/slam_catkin_ws/src/stereo_dso_ros/note/indemind_calib.txt preset=0 mode=1"></node>
+    <node name="send_data" pkg="rosbag" type="play" args="/home/ida/2021-03-22-16-17-59.bag -r 0.5 "></node>
+    <node name="rviz" pkg="rviz" type="rviz" args="/home/ida/.rviz/stereo_dso_ros.rviz -d /home/ida/.rviz/stereo_dso_ros.rviz"></node>
+</launch>
